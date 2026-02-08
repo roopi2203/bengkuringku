@@ -75,7 +75,8 @@ class KegiatanController extends Controller
 
         Kegiatan::create($request->all());
 
-        return redirect()->route('kegiatan.index')->with('success', 'Kegiatan berhasil ditambahkan');
+        // PERBAIKAN: Menggunakan admin.kegiatan.index
+        return redirect()->route('admin.kegiatan.index')->with('success', 'Kegiatan berhasil ditambahkan');
     }
 
     /**
@@ -103,7 +104,8 @@ class KegiatanController extends Controller
         $kegiatan = Kegiatan::findOrFail($id);
         $kegiatan->update($request->all());
 
-        return redirect()->route('kegiatan.index')
+        // PERBAIKAN: Menggunakan admin.kegiatan.index
+        return redirect()->route('admin.kegiatan.index')
                          ->with('success', 'Kegiatan berhasil diperbarui!');
     }
 
@@ -115,7 +117,8 @@ class KegiatanController extends Controller
         $kegiatan = Kegiatan::findOrFail($id);
         $kegiatan->delete();
 
-        return redirect()->route('kegiatan.index')
+        // PERBAIKAN: Menggunakan admin.kegiatan.index
+        return redirect()->route('admin.kegiatan.index')
                          ->with('success', 'Kegiatan berhasil dihapus!');
     }
 }
