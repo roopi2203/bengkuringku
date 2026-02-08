@@ -21,7 +21,7 @@ Route::get('/', [BeritaController::class, 'indexPublic'])->name('home');
 Route::get('/kegiatan-publik', [KegiatanController::class, 'publikIndex'])->name('publik.kegiatan.index');
 Route::get('/kegiatan-publik/{id}', [KegiatanController::class, 'publikShow'])->name('publik.kegiatan.show');
 
-// Halaman Statis - Diubah agar mendukung Route Caching di Railway
+// Halaman Statis
 Route::view('/faq', 'publik.faq')->name('faq');
 Route::view('/about', 'publik.about')->name('about');
 
@@ -41,10 +41,26 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     // Dashboard Admin
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-    // CRUD Berita
-    Route::resource('berita', BeritaController::class);
+    // CRUD Berita - Ditambahkan prefix 'admin.' agar tidak bentrok dengan rute publik
+    Route::resource('berita', BeritaController::class)->names([
+        'index'   => 'admin.berita.index',
+        'create'  => 'admin.berita.create',
+        'store'   => 'admin.berita.store',
+        'show'    => 'admin.berita.show',
+        'edit'    => 'admin.berita.edit',
+        'update'  => 'admin.berita.update',
+        'destroy' => 'admin.berita.destroy',
+    ]);
 
-    // CRUD Kegiatan
-    Route::resource('kegiatan', KegiatanController::class);
+    // CRUD Kegiatan - Ditambahkan prefix 'admin.' agar konsisten
+    Route::resource('kegiatan', KegiatanController::class)->names([
+        'index'   => 'admin.kegiatan.index',
+        'create'  => 'admin.kegiatan.create',
+        'store'   => 'admin.kegiatan.store',
+        'show'    => 'admin.kegiatan.show',
+        'edit'    => 'admin.kegiatan.edit',
+        'update'  => 'admin.kegiatan.update',
+        'destroy' => 'admin.kegiatan.destroy',
+    ]);
     
 });
