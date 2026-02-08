@@ -17,18 +17,13 @@ use App\Http\Controllers\DashboardController;
 // Halaman Utama: Menampilkan berita
 Route::get('/', [BeritaController::class, 'indexPublic'])->name('home');
 
-// Halaman Kegiatan Publik (Menggunakan fungsi yang mendukung filter & paginasi)
+// Halaman Kegiatan Publik
 Route::get('/kegiatan-publik', [KegiatanController::class, 'publikIndex'])->name('publik.kegiatan.index');
 Route::get('/kegiatan-publik/{id}', [KegiatanController::class, 'publikShow'])->name('publik.kegiatan.show');
 
-// Halaman Statis
-Route::get('/faq', function () {
-    return view('publik.faq');
-})->name('faq');
-
-Route::get('/about', function () {
-    return view('publik.about');
-})->name('about');
+// Halaman Statis - Diubah agar mendukung Route Caching di Railway
+Route::view('/faq', 'publik.faq')->name('faq');
+Route::view('/about', 'publik.about')->name('about');
 
 // Detail Berita Publik
 Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('berita.show');
@@ -49,7 +44,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     // CRUD Berita
     Route::resource('berita', BeritaController::class);
 
-    // CRUD Kegiatan (Otomatis menggunakan fungsi index, create, store, edit, update, destroy)
+    // CRUD Kegiatan
     Route::resource('kegiatan', KegiatanController::class);
     
 });
