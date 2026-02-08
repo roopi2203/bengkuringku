@@ -40,13 +40,7 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center justify-between py-2 px-1">
-                        <label class="group flex items-center text-sm text-gray-400 font-bold cursor-pointer hover:text-gray-600 transition-colors">
-                            <input type="checkbox" name="remember" class="w-5 h-5 text-blue-600 border-2 border-gray-200 rounded-lg focus:ring-blue-500 mr-3 transition-all cursor-pointer">
-                            Ingat saya
-                        </label>
-                        <a href="#" class="text-xs font-black text-blue-600 hover:text-blue-800 transition-colors uppercase tracking-widest">Lupa Password?</a>
-                    </div>
+                    {{-- Bagian Remember Me dan Lupa Password telah dihapus --}}
 
                     <button type="submit" 
                         class="w-full bg-blue-600 text-white font-black py-5 rounded-[1.5rem] hover:bg-gray-900 shadow-2xl shadow-blue-200 hover:shadow-gray-200 active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-3 group">
