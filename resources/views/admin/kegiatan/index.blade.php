@@ -8,7 +8,8 @@
 </div>
 
 <div class="mb-6">
-    <a href="{{ route('kegiatan.create') }}" class="inline-flex items-center gap-2 bg-emerald-600 text-white px-6 py-2.5 rounded-2xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100 font-bold text-sm">
+    {{-- PERUBAHAN 1: kegiatan.create -> admin.kegiatan.create --}}
+    <a href="{{ route('admin.kegiatan.create') }}" class="inline-flex items-center gap-2 bg-emerald-600 text-white px-6 py-2.5 rounded-2xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100 font-bold text-sm">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
         </svg>
@@ -17,7 +18,8 @@
 </div>
 
 <div class="bg-white p-6 rounded-[2rem] shadow-xl shadow-gray-100/50 border border-gray-100 mb-8">
-    <form action="{{ route('kegiatan.index') }}" method="GET" class="flex flex-wrap items-end gap-4">
+    {{-- PERUBAHAN 2: kegiatan.index -> admin.kegiatan.index --}}
+    <form action="{{ route('admin.kegiatan.index') }}" method="GET" class="flex flex-wrap items-end gap-4">
         <div class="flex-1 min-w-[240px]">
             <label class="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2 ml-1">Filter Tanggal</label>
             <div class="relative">
@@ -30,7 +32,8 @@
                 Terapkan Filter
             </button>
             @if(request('tanggal'))
-                <a href="{{ route('kegiatan.index') }}" class="bg-gray-100 text-gray-600 px-6 py-2.5 rounded-xl hover:bg-gray-200 transition-all text-sm font-bold">
+                {{-- PERUBAHAN 3: kegiatan.index -> admin.kegiatan.index --}}
+                <a href="{{ route('admin.kegiatan.index') }}" class="bg-gray-100 text-gray-600 px-6 py-2.5 rounded-xl hover:bg-gray-200 transition-all text-sm font-bold">
                     Reset
                 </a>
             @endif
@@ -68,14 +71,16 @@
                 </td>
                 <td class="p-5 text-center">
                     <div class="flex justify-center items-center gap-2">
-                        <a href="{{ route('kegiatan.edit', $k->id) }}" 
+                        {{-- PERUBAHAN 4: kegiatan.edit -> admin.kegiatan.edit --}}
+                        <a href="{{ route('admin.kegiatan.edit', $k->id) }}" 
                            class="p-2.5 bg-yellow-50 text-yellow-600 rounded-xl hover:bg-yellow-500 hover:text-white transition-all shadow-sm shadow-yellow-100/50"
                            title="Ubah Kegiatan">
-                           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                           <svg xmlns="http://www.w3.org/2000/xl" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                            </svg>
                         </a>
-                        <form action="{{ route('kegiatan.destroy', $k->id) }}" method="POST" class="m-0">
+                        {{-- PERUBAHAN 5: kegiatan.destroy -> admin.kegiatan.destroy --}}
+                        <form action="{{ route('admin.kegiatan.destroy', $k->id) }}" method="POST" class="m-0">
                             @csrf @method('DELETE')
                             <button type="submit" 
                                     class="p-2.5 bg-red-50 text-red-600 rounded-xl hover:bg-red-500 hover:text-white transition-all shadow-sm shadow-red-100/50" 
@@ -95,7 +100,8 @@
                     <div class="flex flex-col items-center">
                         <svg class="w-16 h-16 text-gray-200 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         <p class="font-bold italic tracking-tight text-lg">Tidak ada jadwal kegiatan.</p>
-                        <p class="text-xs">Coba ubah filter tanggal atau tambahkan kegiatan baru.</p>
+                        {{-- PERUBAHAN 6: kegiatan.index -> admin.kegiatan.index --}}
+                        <a href="{{ route('admin.kegiatan.index') }}" class="text-blue-600 text-sm font-bold mt-2 hover:underline">Reset Filter</a>
                     </div>
                 </td>
             </tr>

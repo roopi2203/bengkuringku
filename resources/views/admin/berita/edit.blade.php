@@ -3,7 +3,8 @@
 @section('content')
 <div class="max-w-4xl mx-auto py-10">
     <div class="mb-10">
-        <a href="{{ route('berita.index') }}" class="group inline-flex items-center text-sm font-bold text-gray-400 hover:text-blue-600 transition-colors">
+        {{-- PERUBAHAN 1: berita.index -> admin.berita.index --}}
+        <a href="{{ route('admin.berita.index') }}" class="group inline-flex items-center text-sm font-bold text-gray-400 hover:text-blue-600 transition-colors">
             <div class="bg-white p-2 rounded-xl shadow-sm border border-gray-100 mr-3 group-hover:bg-blue-50 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -16,7 +17,8 @@
     </div>
 
     <div class="bg-white rounded-[3rem] shadow-2xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
-        <form action="{{ route('berita.update', $beritum->id) }}" method="POST" enctype="multipart/form-data" class="p-8 md:p-14">
+        {{-- PERUBAHAN 2: berita.update -> admin.berita.update --}}
+        <form action="{{ route('admin.berita.update', $beritum->id) }}" method="POST" enctype="multipart/form-data" class="p-8 md:p-14">
             @csrf
             @method('PUT')
 
@@ -64,7 +66,8 @@
             </div>
 
             <div class="flex flex-col md:flex-row items-center justify-between gap-6 pt-8 border-t border-gray-50">
-                <a href="{{ route('berita.index') }}" class="text-sm font-bold text-gray-400 hover:text-red-500 transition-colors">
+                {{-- PERUBAHAN 3: berita.index -> admin.berita.index --}}
+                <a href="{{ route('admin.berita.index') }}" class="text-sm font-bold text-gray-400 hover:text-red-500 transition-colors">
                     Batalkan Perubahan
                 </a>
                 <button type="submit" class="w-full md:w-auto bg-blue-600 text-white font-black px-12 py-5 rounded-[1.5rem] hover:bg-gray-900 shadow-2xl shadow-blue-200 hover:shadow-gray-200 active:scale-95 transition-all flex items-center justify-center gap-3">

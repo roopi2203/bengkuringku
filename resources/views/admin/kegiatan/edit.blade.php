@@ -5,7 +5,8 @@
 @section('content')
 <div class="max-w-4xl mx-auto pt-4 pb-12">
     <div class="mb-8 px-4 md:px-0">
-        <a href="{{ route('kegiatan.index') }}" class="group inline-flex items-center text-sm font-bold text-gray-400 hover:text-emerald-600 transition-colors">
+        {{-- PERUBAHAN 1: kegiatan.index -> admin.kegiatan.index --}}
+        <a href="{{ route('admin.kegiatan.index') }}" class="group inline-flex items-center text-sm font-bold text-gray-400 hover:text-emerald-600 transition-colors">
             <div class="bg-white p-2 rounded-xl shadow-sm border border-gray-100 mr-3 group-hover:bg-emerald-50 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -18,7 +19,8 @@
     </div>
 
     <div class="bg-white rounded-[3rem] shadow-2xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
-        <form action="{{ route('kegiatan.update', $kegiatan->id) }}" method="POST" class="p-8 md:p-14">
+        {{-- PERUBAHAN 2: kegiatan.update -> admin.kegiatan.update --}}
+        <form action="{{ route('admin.kegiatan.update', $kegiatan->id) }}" method="POST" class="p-8 md:p-14">
             @csrf
             @method('PUT')
             
@@ -56,7 +58,8 @@
                 </div>
 
                 <div class="flex flex-col md:flex-row items-center justify-between gap-6 pt-10 border-t border-gray-50">
-                    <a href="{{ route('kegiatan.index') }}" class="text-sm font-bold text-gray-400 hover:text-red-500 transition-colors order-2 md:order-1">
+                    {{-- PERUBAHAN 3: kegiatan.index -> admin.kegiatan.index --}}
+                    <a href="{{ route('admin.kegiatan.index') }}" class="text-sm font-bold text-gray-400 hover:text-red-500 transition-colors order-2 md:order-1">
                         Batalkan Perubahan
                     </a>
                     <button type="submit" class="w-full md:w-auto bg-emerald-600 text-white font-black px-12 py-5 rounded-[1.5rem] hover:bg-gray-900 shadow-lg active:scale-95 transition-all flex items-center justify-center gap-3 order-1 md:order-2">

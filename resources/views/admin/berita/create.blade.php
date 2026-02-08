@@ -5,7 +5,8 @@
 @section('content')
 <div class="max-w-4xl mx-auto">
     <div class="mb-10">
-        <a href="{{ route('berita.index') }}" class="group inline-flex items-center text-sm font-bold text-gray-400 hover:text-blue-600 transition-colors">
+        {{-- PERUBAHAN DISINI: berita.index menjadi admin.berita.index --}}
+        <a href="{{ route('admin.berita.index') }}" class="group inline-flex items-center text-sm font-bold text-gray-400 hover:text-blue-600 transition-colors">
             <div class="bg-white p-2 rounded-xl shadow-sm border border-gray-100 mr-3 group-hover:bg-blue-50 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -18,7 +19,8 @@
     </div>
 
     <div class="bg-white rounded-[3rem] shadow-2xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
-        <form action="{{ route('berita.store') }}" method="POST" enctype="multipart/form-data" class="p-8 md:p-14">
+        {{-- PERUBAHAN DISINI: berita.store menjadi admin.berita.store --}}
+        <form action="{{ route('admin.berita.store') }}" method="POST" enctype="multipart/form-data" class="p-8 md:p-14">
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">

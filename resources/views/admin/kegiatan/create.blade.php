@@ -3,7 +3,8 @@
 @section('content')
 <div class="max-w-4xl mx-auto pt-4 pb-12">
     <div class="mb-8">
-        <a href="{{ route('kegiatan.index') }}" class="group inline-flex items-center text-sm font-bold text-gray-400 hover:text-emerald-600 transition-colors">
+        {{-- PERUBAHAN 1: kegiatan.index -> admin.kegiatan.index --}}
+        <a href="{{ route('admin.kegiatan.index') }}" class="group inline-flex items-center text-sm font-bold text-gray-400 hover:text-emerald-600 transition-colors">
             <div class="bg-white p-2 rounded-xl shadow-sm border border-gray-100 mr-3 group-hover:bg-emerald-50 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -16,7 +17,8 @@
     </div>
 
     <div class="bg-white rounded-[3rem] shadow-2xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
-        <form action="{{ route('kegiatan.store') }}" method="POST" class="p-8 md:p-14">
+        {{-- PERUBAHAN 2: kegiatan.store -> admin.kegiatan.store --}}
+        <form action="{{ route('admin.kegiatan.store') }}" method="POST" class="p-8 md:p-14">
             @csrf
 
             <div class="mb-10">

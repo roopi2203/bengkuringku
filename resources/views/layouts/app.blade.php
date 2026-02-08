@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    {{-- Bagian Title telah diubah menjadi statis BENGKURINGKU --}}
     <title>@yield('title') | BENGKURINGKU</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -37,15 +36,20 @@
         <div class="max-w-6xl mx-auto px-6">
             <div class="flex justify-between h-20">
                 <div class="flex items-center">
-                    <a href="/" class="text-2xl font-black text-blue-600 tracking-tighter uppercase"><span class="text-gray-900">BENGKURINGKU</span>
+                    <a href="/" class="text-2xl font-black text-blue-600 tracking-tighter uppercase">
+                        <span class="text-gray-900">BENGKURINGKU</span>
                     </a>
                 </div>
 
                 <div class="hidden md:flex items-center space-x-8">
                     @auth
                         <a href="{{ route('admin.dashboard') }}" class="text-[13px] font-bold uppercase tracking-widest transition {{ Request::is('admin/dashboard') ? 'active-link' : 'text-gray-500 hover:text-blue-600' }}">Statistik</a>
-                        <a href="{{ route('berita.index') }}" class="text-[13px] font-bold uppercase tracking-widest transition {{ Request::is('admin/berita*') ? 'active-link' : 'text-gray-500 hover:text-blue-600' }}">Berita</a>
-                        <a href="{{ route('kegiatan.index') }}" class="text-[13px] font-bold uppercase tracking-widest transition {{ Request::is('admin/kegiatan*') ? 'active-link' : 'text-gray-500 hover:text-blue-600' }}">Kegiatan</a>
+                        
+                        {{-- PERBAIKAN: Menggunakan admin.berita.index --}}
+                        <a href="{{ route('admin.berita.index') }}" class="text-[13px] font-bold uppercase tracking-widest transition {{ Request::is('admin/berita*') ? 'active-link' : 'text-gray-500 hover:text-blue-600' }}">Berita</a>
+                        
+                        {{-- PERBAIKAN: Menggunakan admin.kegiatan.index --}}
+                        <a href="{{ route('admin.kegiatan.index') }}" class="text-[13px] font-bold uppercase tracking-widest transition {{ Request::is('admin/kegiatan*') ? 'active-link' : 'text-gray-500 hover:text-blue-600' }}">Kegiatan</a>
                         
                         <div class="h-5 w-[1px] bg-gray-200 mx-2"></div>
 
@@ -76,8 +80,13 @@
             <div class="px-4 py-6 space-y-3">
                 @auth
                     <a href="{{ route('admin.dashboard') }}" class="block px-4 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest {{ Request::is('admin/dashboard') ? 'bg-blue-50 text-blue-600' : 'text-gray-600' }}">Dashboard</a>
-                    <a href="{{ route('berita.index') }}" class="block px-4 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest {{ Request::is('admin/berita*') ? 'bg-blue-50 text-blue-600' : 'text-gray-600' }}">Kelola Berita</a>
-                    <a href="{{ route('kegiatan.index') }}" class="block px-4 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest {{ Request::is('admin/kegiatan*') ? 'bg-blue-50 text-blue-600' : 'text-gray-600' }}">Kelola Kegiatan</a>
+                    
+                    {{-- PERBAIKAN: Menggunakan admin.berita.index --}}
+                    <a href="{{ route('admin.berita.index') }}" class="block px-4 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest {{ Request::is('admin/berita*') ? 'bg-blue-50 text-blue-600' : 'text-gray-600' }}">Kelola Berita</a>
+                    
+                    {{-- PERBAIKAN: Menggunakan admin.kegiatan.index --}}
+                    <a href="{{ route('admin.kegiatan.index') }}" class="block px-4 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest {{ Request::is('admin/kegiatan*') ? 'bg-blue-50 text-blue-600' : 'text-gray-600' }}">Kelola Kegiatan</a>
+                    
                     <form action="{{ route('logout') }}" method="POST" class="pt-2">
                         @csrf
                         <button type="submit" class="w-full text-center bg-red-50 text-red-600 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest">Logout</button>
@@ -116,11 +125,7 @@
         <div class="max-w-5xl mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                 <div class="md:col-span-2">
-                    <a href="/" class="text-xl font-black text-white tracking-tighter uppercase mb-6 block">BENGKURINGKU<span class="text-blue-500"></span>
-                    </a>
-                    <p class="text-gray-400 text-[13px] leading-relaxed max-w-sm font-medium">
-                        
-                    </p>
+                    <a href="/" class="text-xl font-black text-white tracking-tighter uppercase mb-6 block">BENGKURINGKU</a>
                 </div>
                 <div>
                     <h4 class="text-white font-black text-[10px] uppercase tracking-[0.2em] mb-6">Navigasi</h4>
