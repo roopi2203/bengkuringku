@@ -16,7 +16,6 @@
 
                 <div class="text-center mb-10">
                     <h2 class="text-3xl font-black text-gray-900 tracking-tight">Selamat Datang</h2>
-                    <p class="text-gray-400 mt-3 font-medium">Kelola informasi desa dengan mudah dalam satu pintu.</p>
                 </div>
 
                 <form action="{{ route('login') }}" method="POST" class="space-y-7">
@@ -27,7 +26,7 @@
                         <div class="relative">
                             <input type="email" name="email" required 
                                 class="w-full px-6 py-5 rounded-[1.5rem] border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all font-bold text-gray-700 placeholder:text-gray-300"
-                                placeholder="admin@desa.com">
+                                placeholder="admin@portal.com">
                         </div>
                     </div>
 
