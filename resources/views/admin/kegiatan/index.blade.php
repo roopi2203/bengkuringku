@@ -23,8 +23,9 @@
         <div class="flex-1 min-w-[240px]">
             <label class="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2 ml-1">Filter Tanggal</label>
             <div class="relative">
-                <input type="date" name="tanggal" value="{{ request('tanggal') }}" 
-                       class="w-full bg-gray-50 border-gray-100 rounded-xl focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 text-sm transition-all py-2.5">
+                {{-- PERBAIKAN MOBILE CALENDAR: Ditambahkan onclick="this.showPicker()" dan optimalisasi padding --}}
+                <input type="date" name="tanggal" value="{{ request('tanggal') }}" onclick="this.showPicker()" 
+                       class="w-full bg-gray-50 border-gray-100 rounded-xl focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 text-sm transition-all py-2.5 px-4 block clear-both cursor-pointer">
             </div>
         </div>
         <div class="flex gap-2">
@@ -41,77 +42,199 @@
     </form>
 </div>
 
-<div class="bg-white rounded-[2rem] shadow-xl shadow-gray-100/50 border border-gray-100 overflow-hidden">
-    <table class="w-full text-left border-collapse">
-        <thead>
-            <tr class="bg-gray-50/50 border-b border-gray-100">
-                <th class="p-5 font-bold text-gray-400 uppercase text-[10px] tracking-[0.2em]">Nama Kegiatan</th>
-                <th class="p-5 font-bold text-gray-400 uppercase text-[10px] tracking-[0.2em]">Waktu Pelaksanaan</th>
-                <th class="p-5 font-bold text-gray-400 uppercase text-[10px] tracking-[0.2em] text-center w-32">Aksi</th>
-            </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-50 text-gray-700">
-            @forelse($kegiatan as $k)
-            <tr class="hover:bg-emerald-50/30 transition-colors group">
-                <td class="p-5">
-                    <span class="font-bold text-gray-900 text-base leading-snug group-hover:text-emerald-700 transition-colors">
-                        {{ $k->nama_kegiatan }}
-                    </span>
-                </td>
-                <td class="p-5">
-                    <div class="flex flex-col">
-                        <span class="text-sm font-bold text-gray-700">{{ \Carbon\Carbon::parse($k->tanggal_kegiatan)->translatedFormat('d M Y') }}</span>
-                        <span class="text-[11px] text-gray-400 font-medium flex items-center gap-1 mt-1 uppercase tracking-wider">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            {{ $k->jam_pelaksanaan ?? 'Waktu menyesuaikan' }}
+<div class="bg-white rounded-[2rem] shadow-xl shadow-gray-100/50 md:border md:border-gray-100 overflow-hidden">
+    
+    {{-- Tampilan Mobile / HP (Card View Premium & Terstruktur) --}}
+    <div class="block md:hidden p-4 space-y-4">
+        @forelse($kegiatan as $k)
+        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-4">
+            
+            {{-- Bagian 1: Judul Kegiatan --}}
+            <div class="flex flex-col">
+                <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1 block">Nama Kegiatan</span>
+                <h3 class="font-black text-gray-900 text-lg leading-snug">
+                    {{ $k->nama_kegiatan }}
+                </h3>
+            </div>
+
+            {{-- Pemisah Halus Antara Judul dan Waktu --}}
+            <div class="border-t border-dashed border-gray-200"></div>
+            
+            {{-- Bagian 2: Waktu Pelaksanaan --}}
+            <div class="bg-gray-50/70 p-3 rounded-xl flex flex-col gap-2">
+                <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest block">Waktu Pelaksanaan</span>
+                
+                <div class="flex items-center gap-2 text-sm font-bold text-gray-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    {{ \Carbon\Carbon::parse($k->tanggal_kegiatan)->translatedFormat('d M Y') }}
+                </div>
+                
+                <div class="flex items-center gap-2 text-xs font-semibold text-gray-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {{ $k->jam_pelaksanaan ?? 'Waktu menyesuaikan' }}
+                </div>
+            </div>
+            
+            {{-- Pemisah Halus Antara Waktu dan Tombol Aksi --}}
+            <div class="border-t border-gray-100"></div>
+
+            {{-- Bagian 3: Tombol Aksi Mobile Rata Kiri --}}
+            <div class="flex justify-start gap-2">
+                <a href="{{ route('admin.kegiatan.edit', $k->id) }}" 
+                   class="flex items-center gap-1.5 px-4 py-2 bg-yellow-50 text-yellow-600 rounded-xl hover:bg-yellow-500 hover:text-white transition-all text-xs font-bold"
+                   title="Ubah Kegiatan">
+                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                   </svg>
+                   Ubah
+                </a>
+                <form action="{{ route('admin.kegiatan.destroy', $k->id) }}" method="POST" class="m-0">
+                    @csrf @method('DELETE')
+                    <button type="submit" 
+                            class="flex items-center gap-1.5 px-4 py-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-500 hover:text-white transition-all text-xs font-bold" 
+                            onclick="return confirm('Hapus Kegiatan ini?')"
+                            title="Hapus Kegiatan">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        Hapus
+                    </button>
+                </form>
+            </div>
+        </div>
+        @empty
+        <div class="p-10 text-center text-gray-400">
+            <p class="font-bold italic text-sm">Tidak ada jadwal kegiatan.</p>
+        </div>
+        @endforelse
+    </div>
+
+    {{-- Tampilan Desktop (Tabel Standar) --}}
+    <div class="hidden md:block w-full">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-gray-50/50 border-b border-gray-100">
+                    <th class="p-5 font-bold text-gray-400 uppercase text-[10px] tracking-[0.2em]">Nama Kegiatan</th>
+                    <th class="p-5 font-bold text-gray-400 uppercase text-[10px] tracking-[0.2em]">Waktu Pelaksanaan</th>
+                    <th class="p-5 font-bold text-gray-400 uppercase text-[10px] tracking-[0.2em] text-center w-32">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-50 text-gray-700">
+                @forelse($kegiatan as $k)
+                <tr class="hover:bg-emerald-50/30 transition-colors group">
+                    <td class="p-5">
+                        <span class="font-bold text-gray-900 text-base leading-snug group-hover:text-emerald-700 transition-colors">
+                            {{ $k->nama_kegiatan }}
                         </span>
-                    </div>
-                </td>
-                <td class="p-5 text-center">
-                    <div class="flex justify-center items-center gap-2">
-                        {{-- PERUBAHAN 4: kegiatan.edit -> admin.kegiatan.edit --}}
-                        <a href="{{ route('admin.kegiatan.edit', $k->id) }}" 
-                           class="p-2.5 bg-yellow-50 text-yellow-600 rounded-xl hover:bg-yellow-500 hover:text-white transition-all shadow-sm shadow-yellow-100/50"
-                           title="Ubah Kegiatan">
-                           <svg xmlns="http://www.w3.org/2000/xl" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                           </svg>
-                        </a>
-                        {{-- PERUBAHAN 5: kegiatan.destroy -> admin.kegiatan.destroy --}}
-                        <form action="{{ route('admin.kegiatan.destroy', $k->id) }}" method="POST" class="m-0">
-                            @csrf @method('DELETE')
-                            <button type="submit" 
-                                    class="p-2.5 bg-red-50 text-red-600 rounded-xl hover:bg-red-500 hover:text-white transition-all shadow-sm shadow-red-100/50" 
-                                    onclick="return confirm('Hapus Kegiatan ini?')"
-                                    title="Hapus Kegiatan">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </td>
+                    <td class="p-5">
+                        <div class="flex flex-col">
+                            <span class="text-sm font-bold text-gray-700">{{ \Carbon\Carbon::parse($k->tanggal_kegiatan)->translatedFormat('d M Y') }}</span>
+                            <span class="text-[11px] text-gray-400 font-medium flex items-center gap-1 mt-1 uppercase tracking-wider">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                            </button>
-                        </form>
-                    </div>
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="3" class="p-20 text-center text-gray-400">
-                    <div class="flex flex-col items-center">
-                        <svg class="w-16 h-16 text-gray-200 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        <p class="font-bold italic tracking-tight text-lg">Tidak ada jadwal kegiatan.</p>
-                        {{-- PERUBAHAN 6: kegiatan.index -> admin.kegiatan.index --}}
-                        <a href="{{ route('admin.kegiatan.index') }}" class="text-blue-600 text-sm font-bold mt-2 hover:underline">Reset Filter</a>
-                    </div>
-                </td>
-            </tr>
-            @endforelse
-        </tbody>
-    </table>
+                                {{ $k->jam_pelaksanaan ?? 'Waktu menyesuaikan' }}
+                            </span>
+                        </div>
+                    </td>
+                    <td class="p-5 text-center">
+                        <div class="flex justify-center items-center gap-2">
+                            {{-- PERUBAHAN 4: kegiatan.edit -> admin.kegiatan.edit --}}
+                            <a href="{{ route('admin.kegiatan.edit', $k->id) }}" 
+                               class="p-2.5 bg-yellow-50 text-yellow-600 rounded-xl hover:bg-yellow-500 hover:text-white transition-all shadow-sm shadow-yellow-100/50"
+                               title="Ubah Kegiatan">
+                               <svg xmlns="http://www.w3.org/2000/xl" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                               </svg>
+                            </a>
+                            {{-- PERUBAHAN 5: kegiatan.destroy -> admin.kegiatan.destroy --}}
+                            <form action="{{ route('admin.kegiatan.destroy', $k->id) }}" method="POST" class="m-0">
+                                @csrf @method('DELETE')
+                                <button type="submit" 
+                                        class="p-2.5 bg-red-50 text-red-600 rounded-xl hover:bg-red-500 hover:text-white transition-all shadow-sm shadow-red-100/50" 
+                                        onclick="return confirm('Hapus Kegiatan ini?')"
+                                        title="Hapus Kegiatan">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="3" class="p-20 text-center text-gray-400">
+                        <div class="flex flex-col items-center">
+                            <svg class="w-16 h-16 text-gray-200 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <p class="font-bold italic tracking-tight text-lg">Tidak ada jadwal kegiatan.</p>
+                            {{-- PERUBAHAN 6: kegiatan.index -> admin.kegiatan.index --}}
+                            <a href="{{ route('admin.kegiatan.index') }}" class="text-blue-600 text-sm font-bold mt-2 hover:underline">Reset Filter</a>
+                        </div>
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 </div>
 
-<div class="mt-8 flex justify-center">
-    {{ $kegiatan->links() }}
+{{-- MODIFIKASI: Tampilan Kustom Elegan untuk Pagination --}}
+<div class="mt-8 bg-white px-6 py-4 rounded-[1.5rem] shadow-lg shadow-gray-100/50 border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">
+        Menampilkan <span class="text-gray-900 font-black">{{ $kegiatan->firstItem() ?? 0 }}</span> sampai <span class="text-gray-900 font-black">{{ $kegiatan->lastItem() ?? 0 }}</span> dari <span class="text-gray-900 font-black">{{ $kegiatan->total() }}</span> kegiatan
+    </div>
+    
+    @if($kegiatan->hasPages())
+        <nav role="navigation" aria-label="Pagination Navigation" class="flex items-center gap-1.5">
+            {{-- Tombol Sebelumnya --}}
+            @if($kegiatan->onFirstPage())
+                <span class="p-2.5 bg-gray-50 text-gray-300 rounded-xl cursor-not-allowed text-xs font-bold flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </span>
+            @else
+                <a href="{{ $kegiatan->previousPageUrl() }}" class="p-2.5 bg-gray-50 text-gray-600 rounded-xl hover:bg-emerald-600 hover:text-white transition-all text-xs font-bold flex items-center gap-1 shadow-sm shadow-gray-100">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </a>
+            @endif
+
+            {{-- Elemen Halaman --}}
+            <div class="hidden sm:flex items-center gap-1.5">
+                @foreach ($kegiatan->getUrlRange(1, $kegiatan->lastPage()) as $page => $url)
+                    {{-- Batasi jumlah tombol halaman demi kerapian data numerik jika terlalu banyak --}}
+                    @if (abs($kegiatan->currentPage() - $page) < 3 || $page == 1 || $page == $kegiatan->lastPage())
+                        @if ($page == $kegiatan->currentPage())
+                            <span class="min-w-[38px] h-[38px] flex items-center justify-center bg-emerald-600 text-white rounded-xl text-xs font-black shadow-md shadow-emerald-100">
+                                {{ $page }}
+                            </span>
+                        @else
+                            <a href="{{ $url }}" class="min-w-[38px] h-[38px] flex items-center justify-center bg-gray-50/50 border border-gray-100 text-gray-600 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200 transition-all text-xs font-bold">
+                                {{ $page }}
+                            </a>
+                        @endif
+                    @elseif (($page == 2 && $kegiatan->currentPage() > 4) || ($page == $kegiatan->lastPage() - 1 && $kegiatan->currentPage() < $kegiatan->lastPage() - 3))
+                        <span class="px-2 text-gray-300 font-bold text-xs">...</span>
+                    @endif
+                @endforeach
+            </div>
+
+            {{-- Tombol Berikutnya --}}
+            @if($kegiatan->hasMorePages())
+                <a href="{{ $kegiatan->nextPageUrl() }}" class="p-2.5 bg-gray-50 text-gray-600 rounded-xl hover:bg-emerald-600 hover:text-white transition-all text-xs font-bold flex items-center gap-1 shadow-sm shadow-gray-100">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            @else
+                <span class="p-2.5 bg-gray-50 text-gray-300 rounded-xl cursor-not-allowed text-xs font-bold flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </span>
+            @endif
+        </nav>
+    @endif
 </div>
 
 @endsection

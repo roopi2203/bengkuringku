@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Kelola Berita')
+@section('title', '')
 
 @section('content')
 <div class="mb-6">
@@ -44,80 +44,191 @@
     </form>
 </div>
 
-<div class="bg-white rounded-[2rem] shadow-xl shadow-gray-100/50 border border-gray-100 overflow-hidden">
-    <table class="w-full text-left border-collapse">
-        <thead>
-            <tr class="bg-gray-50/50 border-b border-gray-100">
-                <th class="p-5 font-bold text-gray-400 uppercase text-[10px] tracking-[0.2em] w-24">Gambar</th>
-                <th class="p-5 font-bold text-gray-400 uppercase text-[10px] tracking-[0.2em]">Info Berita</th>
-                <th class="p-5 font-bold text-gray-400 uppercase text-[10px] tracking-[0.2em] text-center w-32">Aksi</th>
-            </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-50 text-gray-700">
-            @forelse($berita as $item)
-            <tr class="hover:bg-blue-50/30 transition-colors group">
-                <td class="p-5">
-                    <div class="w-20 h-14 rounded-2xl bg-gray-100 overflow-hidden border-2 border-white shadow-sm group-hover:shadow-md transition-all">
-                        @if($item->gambar)
-                            <img src="{{ asset('uploads/berita/' . $item->gambar) }}" class="w-full h-full object-cover">
-                        @else
-                            <div class="w-full h-full flex items-center justify-center text-[10px] text-gray-400 font-black bg-gray-50 uppercase tracking-tighter">No Img</div>
-                        @endif
-                    </div>
-                </td>
-                <td class="p-5">
-                    <div class="flex flex-col">
-                        <span class="font-bold text-gray-900 leading-snug group-hover:text-blue-600 transition-colors text-base">{{ Str::limit($item->judul, 65) }}</span>
-                        <span class="text-[11px] text-gray-400 font-medium mt-1.5 flex items-center gap-1.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            {{ $item->tanggal_publish->translatedFormat('d M Y') }}
-                        </span>
-                    </div>
-                </td>
-                <td class="p-5 text-center">
-                    <div class="flex justify-center items-center gap-2">
-                        <a href="{{ route('admin.berita.edit', $item->id) }}" 
-                           class="p-2.5 bg-yellow-50 text-yellow-600 rounded-xl hover:bg-yellow-500 hover:text-white transition-all shadow-sm shadow-yellow-100/50"
-                           title="Ubah Berita">
-                           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                           </svg>
-                        </a>
-                        {{-- PERUBAHAN DISINI: berita.destroy menjadi admin.berita.destroy --}}
-                        <form action="{{ route('admin.berita.destroy', $item->id) }}" method="POST" class="m-0">
-                            @csrf @method('DELETE')
-                            <button type="submit" 
-                                    class="p-2.5 bg-red-50 text-red-600 rounded-xl hover:bg-red-500 hover:text-white transition-all shadow-sm shadow-red-100/50" 
-                                    onclick="return confirm('Hapus Artikel ini?')"
-                                    title="Hapus Berita">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </button>
-                        </form>
-                    </div>
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="3" class="p-20 text-center">
-                    <div class="flex flex-col items-center">
-                        <div class="bg-gray-50 p-5 rounded-full mb-4">
-                            <svg class="w-12 h-12 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
+{{-- KONTEN UTAMA --}}
+<div class="bg-white md:bg-white rounded-[2rem] shadow-xl shadow-gray-100/50 md:border md:border-gray-100 overflow-hidden">
+    
+    {{-- Tampilan Mobile / HP --}}
+    <div class="block md:hidden p-4 space-y-4">
+        @forelse($berita as $item)
+        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-4">
+            
+            {{-- Bagian Info Utama Berita --}}
+            <div class="flex gap-4 items-start">
+                <div class="w-20 h-14 rounded-xl bg-gray-100 overflow-hidden border border-gray-200/60 shrink-0">
+                    @if($item->gambar)
+                        <img src="{{ asset('uploads/berita/' . $item->gambar) }}" class="w-full h-full object-cover">
+                    @else
+                        <div class="w-full h-full flex items-center justify-center text-[10px] text-gray-400 font-black bg-gray-50 uppercase tracking-tighter">No Img</div>
+                    @endif
+                </div>
+                <div class="flex flex-col flex-1">
+                    <span class="font-bold text-gray-900 leading-snug text-sm">{{ Str::limit($item->judul, 65) }}</span>
+                    <span class="text-[11px] text-gray-400 font-medium mt-1 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        {{ $item->tanggal_publish->translatedFormat('d M Y') }}
+                    </span>
+                </div>
+            </div>
+            
+            {{-- MODIFIKASI: Pemisah Putus-Putus Premium antara Konten Berita dan Aksi --}}
+            <div class="border-t border-dashed border-gray-200"></div>
+            
+            {{-- Bagian Tombol Aksi Mobile Rata Kiri --}}
+            <div class="flex justify-start gap-2">
+                <a href="{{ route('admin.berita.edit', $item->id) }}" 
+                   class="flex items-center gap-1.5 px-4 py-2 bg-yellow-50 text-yellow-600 rounded-xl hover:bg-yellow-500 hover:text-white transition-all text-xs font-bold"
+                   title="Ubah Berita">
+                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                   </svg>
+                   Ubah
+                </a>
+                <form action="{{ route('admin.berita.destroy', $item->id) }}" method="POST" class="m-0">
+                    @csrf @method('DELETE')
+                    <button type="submit" 
+                            class="flex items-center gap-1.5 px-4 py-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-500 hover:text-white transition-all text-xs font-bold" 
+                            onclick="return confirm('Hapus Artikel ini?')"
+                            title="Hapus Berita">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        Hapus
+                    </button>
+                </form>
+            </div>
+        </div>
+        @empty
+        <div class="p-10 text-center">
+            <p class="text-gray-400 font-bold italic text-sm">Belum ada berita ditemukan.</p>
+        </div>
+        @endforelse
+    </div>
+
+    {{-- Tampilan Desktop (Tabel Normal) --}}
+    <div class="hidden md:block w-full">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-gray-50/50 border-b border-gray-100">
+                    <th class="p-5 font-bold text-gray-400 uppercase text-[10px] tracking-[0.2em] w-24">Gambar</th>
+                    <th class="p-5 font-bold text-gray-400 uppercase text-[10px] tracking-[0.2em]">Info Berita</th>
+                    <th class="p-5 font-bold text-gray-400 uppercase text-[10px] tracking-[0.2em] text-center w-32">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-50 text-gray-700">
+                @forelse($berita as $item)
+                <tr class="hover:bg-blue-50/30 transition-colors group">
+                    <td class="p-5">
+                        <div class="w-20 h-14 rounded-2xl bg-gray-100 overflow-hidden border-2 border-white shadow-sm group-hover:shadow-md transition-all">
+                            @if($item->gambar)
+                                <img src="{{ asset('uploads/berita/' . $item->gambar) }}" class="w-full h-full object-cover">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center text-[10px] text-gray-400 font-black bg-gray-50 uppercase tracking-tighter">No Img</div>
+                            @endif
                         </div>
-                        <p class="text-gray-400 font-bold italic tracking-tight">Belum ada berita ditemukan.</p>
-                        <a href="{{ route('admin.berita.index') }}" class="text-blue-600 text-sm font-bold mt-2 hover:underline">Reset Pencarian</a>
-                    </div>
-                </td>
-            </tr>
-            @endforelse
-        </tbody>
-    </table>
+                    </td>
+                    <td class="p-5">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-gray-900 leading-snug group-hover:text-blue-600 transition-colors text-base">{{ Str::limit($item->judul, 65) }}</span>
+                            <span class="text-[11px] text-gray-400 font-medium mt-1.5 flex items-center gap-1.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                {{ $item->tanggal_publish->translatedFormat('d M Y') }}
+                            </span>
+                        </div>
+                    </td>
+                    <td class="p-5 text-center">
+                        <div class="flex justify-center items-center gap-2">
+                            <a href="{{ route('admin.berita.edit', $item->id) }}" 
+                               class="p-2.5 bg-yellow-50 text-yellow-600 rounded-xl hover:bg-yellow-500 hover:text-white transition-all shadow-sm shadow-yellow-100/50"
+                               title="Ubah Berita">
+                               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                               </svg>
+                            </a>
+                            <form action="{{ route('admin.berita.destroy', $item->id) }}" method="POST" class="m-0">
+                                @csrf @method('DELETE')
+                                <button type="submit" 
+                                        class="p-2.5 bg-red-50 text-red-600 rounded-xl hover:bg-red-500 hover:text-white transition-all shadow-sm shadow-red-100/50" 
+                                        onclick="return confirm('Hapus Artikel ini?')"
+                                        title="Hapus Berita">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="3" class="p-20 text-center">
+                        <div class="flex flex-col items-center">
+                            <div class="bg-gray-50 p-5 rounded-full mb-4">
+                                <svg class="w-12 h-12 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
+                            </div>
+                            <p class="text-gray-400 font-bold italic tracking-tight">Belum ada berita ditemukan.</p>
+                            <a href="{{ route('admin.berita.index') }}" class="text-blue-600 text-sm font-bold mt-2 hover:underline">Reset Pencarian</a>
+                        </div>
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 </div>
 
-<div class="mt-8 flex justify-center">
-    {{ $berita->appends(['search' => request('search')])->links() }}
+{{-- MODIFIKASI: Tampilan Kustom Elegan & Modern untuk Pagination Berita (Menjaga search parameter tetap aman) --}}
+<div class="mt-8 bg-white px-6 py-4 rounded-[1.5rem] shadow-lg shadow-gray-100/50 border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">
+        Menampilkan <span class="text-gray-900 font-black">{{ $berita->firstItem() ?? 0 }}</span> sampai <span class="text-gray-900 font-black">{{ $berita->lastItem() ?? 0 }}</span> dari <span class="text-gray-900 font-black">{{ $berita->total() }}</span> artikel
+    </div>
+    
+    @if($berita->hasPages())
+        <nav role="navigation" aria-label="Pagination Navigation" class="flex items-center gap-1.5">
+            {{-- Tombol Sebelumnya --}}
+            @if($berita->onFirstPage())
+                <span class="p-2.5 bg-gray-50 text-gray-300 rounded-xl cursor-not-allowed text-xs font-bold flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </span>
+            @else
+                <a href="{{ $berita->appends(['search' => request('search')])->previousPageUrl() }}" class="p-2.5 bg-gray-50 text-gray-600 rounded-xl hover:bg-blue-600 hover:text-white transition-all text-xs font-bold flex items-center gap-1 shadow-sm shadow-gray-100">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </a>
+            @endif
+
+            {{-- Elemen Angka Halaman --}}
+            <div class="hidden sm:flex items-center gap-1.5">
+                @foreach ($berita->appends(['search' => request('search')])->getUrlRange(1, $berita->lastPage()) as $page => $url)
+                    @if (abs($berita->currentPage() - $page) < 3 || $page == 1 || $page == $berita->lastPage())
+                        @if ($page == $berita->currentPage())
+                            <span class="min-w-[38px] h-[38px] flex items-center justify-center bg-blue-600 text-white rounded-xl text-xs font-black shadow-md shadow-blue-100">
+                                {{ $page }}
+                            </span>
+                        @else
+                            <a href="{{ $url }}" class="min-w-[38px] h-[38px] flex items-center justify-center bg-gray-50/50 border border-gray-100 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 transition-all text-xs font-bold">
+                                {{ $page }}
+                            </a>
+                        @endif
+                    @elseif (($page == 2 && $berita->currentPage() > 4) || ($page == $berita->lastPage() - 1 && $berita->currentPage() < $berita->lastPage() - 3))
+                        <span class="px-2 text-gray-300 font-bold text-xs">...</span>
+                    @endif
+                @endforeach
+            </div>
+
+            {{-- Tombol Berikutnya --}}
+            @if($berita->hasMorePages())
+                <a href="{{ $berita->appends(['search' => request('search')])->nextPageUrl() }}" class="p-2.5 bg-gray-50 text-gray-600 rounded-xl hover:bg-blue-600 hover:text-white transition-all text-xs font-bold flex items-center gap-1 shadow-sm shadow-gray-100">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            @else
+                <span class="p-2.5 bg-gray-50 text-gray-300 rounded-xl cursor-not-allowed text-xs font-bold flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </span>
+            @endif
+        </nav>
+    @endif
 </div>
 @endsection

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $berita->judul)
+@section('title', )
 
 @section('content')
 <div class="fixed top-[80px] left-0 w-full h-1.5 z-50">

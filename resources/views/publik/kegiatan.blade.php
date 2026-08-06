@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'EVENTS')
+@section('title', '')
 
 @section('content')
 <div class="pb-16">
@@ -52,7 +52,8 @@
             @forelse($kegiatan as $k)
             <div class="group bg-white rounded-[2.2rem] p-2 border border-gray-50 shadow-lg shadow-gray-200/30 hover:shadow-xl hover:shadow-blue-200/20 transition-all duration-500 hover:-translate-y-2">
                 <div class="p-6">
-                    <div class="flex items-center gap-5 mb-6">
+                    {{-- DIKEMBALIKAN: Struktur tata letak judul kembali seperti semula (tanpa badge di bawah tanggal) --}}
+                    <div class="flex items-center gap-5 mb-4">
                         <div class="bg-blue-600 text-white w-14 h-14 rounded-2xl flex flex-col items-center justify-center shadow-lg shadow-blue-200 shrink-0">
                             <span class="text-lg font-black leading-none">{{ \Carbon\Carbon::parse($k->tanggal_kegiatan)->translatedFormat('d') }}</span>
                             <span class="text-[9px] font-black uppercase tracking-tighter">{{ \Carbon\Carbon::parse($k->tanggal_kegiatan)->translatedFormat('M') }}</span>
@@ -63,20 +64,42 @@
                         </h3>
                     </div>
 
-                    <div class="space-y-3 mb-6">
+                    {{-- DIUBAH: Sekarang memiliki 3 baris (space-y-2 untuk menjaga jaraknya tetap rapat dan rapi) --}}
+                    <div class="space-y-2 mb-5">
+                        {{-- Row 1: Lokasi --}}
                         <div class="flex items-center text-gray-500 font-bold text-[11px] uppercase tracking-widest bg-gray-50 px-4 py-2.5 rounded-xl border border-gray-100/50">
-                            <svg class="w-5 h-5 mr-3 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            <svg class="w-5 h-5 mr-3 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                             <span class="truncate">{{ $k->lokasi }}</span>
                         </div>
+
+                        {{-- Row 2: Waktu --}}
                         <div class="flex items-center text-gray-500 font-bold text-[11px] uppercase tracking-widest bg-gray-50 px-4 py-2.5 rounded-xl border border-gray-100/50">
-                            <svg class="w-5 h-5 mr-3 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <svg class="w-5 h-5 mr-3 text-blue-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             <span>{{ \Carbon\Carbon::parse($k->jam_pelaksanaan)->format('H:i') }} WITA</span>
                         </div>
+
+                        {{-- Row 3: Status Kegiatan (Selesai / Mendatang) --}}
+                        @php
+                            $tanggalKegiatan = \Carbon\Carbon::parse($k->tanggal_kegiatan)->startOfDay();
+                            $hariIni = \Carbon\Carbon::today();
+                        @endphp
+
+                        @if($tanggalKegiatan->isPast() && !$tanggalKegiatan->isToday())
+                            <div class="flex items-center text-gray-400 font-black text-[11px] uppercase tracking-widest bg-gray-50 px-4 py-2.5 rounded-xl border border-gray-100/50">
+                                <span class="w-2 h-2 rounded-full bg-gray-400 mr-3.5 animate-pulse"></span>
+                                <span>Status: Selesai</span>
+                            </div>
+                        @else
+                            <div class="flex items-center text-blue-600 font-black text-[11px] uppercase tracking-widest bg-blue-50/40 px-4 py-2.5 rounded-xl border border-blue-100/50">
+                                <span class="w-2 h-2 rounded-full bg-blue-500 mr-3.5 animate-pulse"></span>
+                                <span>Status: Mendatang</span>
+                            </div>
+                        @endif
                     </div>
 
                     <a href="{{ route('publik.kegiatan.show', $k->id) }}" class="flex items-center justify-center gap-2 bg-gray-900 text-white font-black py-4 rounded-[1.2rem] hover:bg-blue-600 transition-all active:scale-95 group/btn">
                         <span class="text-sm">Lihat Detail</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/xl" class="h-5 w-5 transform group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>
                     </a>
@@ -93,9 +116,66 @@
             @endforelse
         </div>
 
+        {{-- PAGINATION --}}
         <div class="mt-16">
-            {{ $kegiatan->links() }}
+            @if (method_exists($kegiatan, 'hasPages') && $kegiatan->hasPages())
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white px-8 py-5 rounded-[2.5rem] shadow-xl shadow-gray-100/50 border border-gray-100">
+                    <div class="text-[10px] font-black text-gray-400 uppercase tracking-wider">
+                        Menampilkan <span class="text-gray-900 font-black">{{ $kegiatan->firstItem() }}</span> 
+                        sampai <span class="text-gray-900 font-black">{{ $kegiatan->lastItem() }}</span> 
+                        dari <span class="text-blue-600 font-black">{{ $kegiatan->total() }}</span> kegiatan
+                    </div>
+
+                    <nav role="navigation" aria-label="Pagination Navigation" class="flex items-center gap-1.5">
+                        @if ($kegiatan->onFirstPage())
+                            <span class="p-2.5 text-gray-300 cursor-not-allowed bg-gray-50 rounded-full border border-gray-100">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                            </span>
+                        @else
+                            <a href="{{ $kegiatan->appends(['tanggal' => request('tanggal')])->previousPageUrl() }}" class="p-2.5 text-gray-600 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-200 bg-white rounded-full border border-gray-200 transition-all active:scale-90 shadow-sm" rel="prev">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                            </a>
+                        @endif
+
+                        @for ($i = 1; $i <= $kegiatan->lastPage(); $i++)
+                            @if ($i == $kegiatan->currentPage())
+                                <span aria-current="page" class="w-8 h-8 flex items-center justify-center text-xs font-black bg-blue-600 text-white rounded-full shadow-md shadow-blue-600/20 border border-blue-600 cursor-default">
+                                    {{ $i }}
+                                </span>
+                            @else
+                                <a href="{{ $kegiatan->appends(['tanggal' => request('tanggal')])->url($i) }}" class="w-8 h-8 flex items-center justify-center text-xs font-bold text-gray-500 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-200 bg-white rounded-full border border-gray-200 transition-all active:scale-95">
+                                    {{ $i }}
+                                </a>
+                            @endif
+                        @endfor
+
+                        @if ($kegiatan->hasMorePages())
+                            <a href="{{ $kegiatan->appends(['tanggal' => request('tanggal')])->nextPageUrl() }}" class="p-2.5 text-gray-600 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-200 bg-white rounded-full border border-gray-200 transition-all active:scale-90 shadow-sm" rel="next">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                            </a>
+                        @else
+                            <span class="p-2.5 text-gray-300 cursor-not-allowed bg-gray-50 rounded-full border border-gray-100">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                            </span>
+                        @endif
+                    </nav>
+                </div>
+            @endif
         </div>
     </div>
 </div>
+
+{{-- Perbaikan Kalender untuk Tampilan Mobile --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateInput = document.querySelector('input[type="date"]');
+        if (dateInput) {
+            dateInput.addEventListener('click', function() {
+                if (typeof this.showPicker === 'function') {
+                    this.showPicker();
+                }
+            });
+        }
+    });
+</script>
 @endsection
