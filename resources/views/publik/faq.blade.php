@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', '')
+@section('title', 'FAQ')
 
 @section('content')
 <div class="pb-16 bg-gray-50/30">
-    {{-- 1. HERO HEADER: Konsisten dengan About --}}
+    {{-- 1. HERO HEADER --}}
     <div class="max-w-6xl mx-auto px-4 pt-8 mb-12">
         <div class="relative bg-[#0f172a] rounded-[2.5rem] overflow-hidden p-8 md:p-12 text-center shadow-2xl shadow-blue-900/20">
             {{-- Elemen Dekoratif --}}
@@ -160,7 +160,7 @@
             </div>
 
             <div class="relative z-10 flex flex-col items-center">
-                {{-- Logo "?" dengan gaya Visi Misi --}}
+                {{-- Logo Bantuan --}}
                 <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-600/20 group-hover:rotate-6 transition-transform duration-500">
                     <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
