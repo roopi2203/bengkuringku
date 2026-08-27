@@ -1,42 +1,51 @@
 @extends('layouts.app')
 
-@section('title', '')
+@section('title', 'Agenda Kegiatan')
 
 @section('content')
 <div class="pb-16">
     {{-- HERO HEADER --}}
     <div class="max-w-6xl mx-auto px-4 pt-8 mb-12">
-        <div class="relative bg-[#0f172a] rounded-[2.5rem] overflow-hidden p-8 md:p-12 text-center shadow-2xl shadow-blue-900/20">
+        <div class="relative bg-[#0f172a] rounded-[2.5rem] overflow-hidden p-6 sm:p-8 md:p-12 text-center shadow-2xl shadow-blue-900/20">
             {{-- Elemen Dekoratif --}}
             <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-10">
                 <div class="absolute -top-24 -left-24 w-96 h-96 bg-blue-500 rounded-full blur-[100px]"></div>
                 <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-indigo-500 rounded-full blur-[100px]"></div>
             </div>
 
-            {{-- Konten Header dengan Tinggi Terkunci --}}
-            <div class="relative z-10 flex flex-col items-center justify-center min-h-[220px]">
+            {{-- Konten Header --}}
+            <div class="relative z-10 flex flex-col items-center justify-center min-h-[180px]">
                 <span class="text-blue-400 font-black uppercase tracking-[0.3em] text-[9px] mb-3 block">Portal Kegiatan Resmi</span>
-                <h1 class="text-4xl md:text-5xl font-black text-white mb-8 tracking-tight uppercase">BENGKURING<span class="text-blue-500">KU</span></h1>
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6 sm:mb-8 tracking-tight uppercase">BENGKURING<span class="text-blue-500">KU</span></h1>
 
+                {{-- FORM PENCARIAN RESPONSIVE --}}
                 <div class="w-full flex justify-center">
-                    <form action="{{ url()->current() }}" method="GET" class="flex items-center bg-white/10 backdrop-blur-md p-2 rounded-[2rem] border border-white/10 w-full max-w-md shadow-inner h-[60px]">
-                        <div class="flex-1 flex items-center pl-4">
-                            <svg class="w-5 h-5 text-blue-400 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                            </svg>
-                            <input type="date" name="tanggal" value="{{ request('tanggal') }}" 
-                                   class="w-full border-none focus:ring-0 text-sm text-white bg-transparent font-bold tracking-wider uppercase cursor-pointer appearance-none [color-scheme:dark]">
-                        </div>
-                        
-                        <div class="flex items-center gap-2 h-full">
-                            @if(request('tanggal'))
-                                <a href="{{ url()->current() }}" class="p-2 text-gray-400 hover:text-red-400 transition-all" title="Reset">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </a>
-                            @endif
-                            <button type="submit" class="bg-blue-600 text-white px-8 h-full rounded-[1.2rem] font-black text-[11px] uppercase tracking-wider hover:bg-blue-500 transition-all active:scale-95 shadow-lg shadow-blue-600/20 shrink-0">
+                    <form action="{{ url()->current() }}" method="GET" class="w-full max-w-md">
+                        <div class="flex flex-col sm:flex-row items-center bg-white/10 backdrop-blur-md p-2 rounded-2xl sm:rounded-[2rem] border border-white/10 shadow-inner gap-2 sm:gap-0">
+                            
+                            {{-- Input Tanggal --}}
+                            <div class="relative w-full flex-1 flex items-center pl-4 pr-2 py-2.5 sm:py-0 cursor-pointer" onclick="document.getElementById('input-tanggal').showPicker && document.getElementById('input-tanggal').showPicker()">
+                                <svg class="w-5 h-5 text-blue-400 mr-3 shrink-0 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                <input type="date" 
+                                       id="input-tanggal"
+                                       name="tanggal" 
+                                       value="{{ request('tanggal') }}" 
+                                       onclick="this.showPicker && this.showPicker()"
+                                       class="w-full border-none focus:ring-0 text-sm text-white bg-transparent font-bold tracking-wider uppercase cursor-pointer [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                                />
+                                @if(request('tanggal'))
+                                    <a href="{{ url()->current() }}" class="p-1.5 text-gray-400 hover:text-red-400 transition-all shrink-0 mr-1" title="Reset">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </a>
+                                @endif
+                            </div>
+                            
+                            {{-- Tombol Cari --}}
+                            <button type="submit" class="w-full sm:w-auto bg-blue-600 text-white px-8 py-3.5 sm:py-3 rounded-xl sm:rounded-[1.2rem] font-black text-[11px] uppercase tracking-wider hover:bg-blue-500 transition-all active:scale-95 shadow-lg shadow-blue-600/20 shrink-0">
                                 Cari
                             </button>
                         </div>
@@ -52,7 +61,6 @@
             @forelse($kegiatan as $k)
             <div class="group bg-white rounded-[2.2rem] p-2 border border-gray-50 shadow-lg shadow-gray-200/30 hover:shadow-xl hover:shadow-blue-200/20 transition-all duration-500 hover:-translate-y-2">
                 <div class="p-6">
-                    {{-- DIKEMBALIKAN: Struktur tata letak judul kembali seperti semula (tanpa badge di bawah tanggal) --}}
                     <div class="flex items-center gap-5 mb-4">
                         <div class="bg-blue-600 text-white w-14 h-14 rounded-2xl flex flex-col items-center justify-center shadow-lg shadow-blue-200 shrink-0">
                             <span class="text-lg font-black leading-none">{{ \Carbon\Carbon::parse($k->tanggal_kegiatan)->translatedFormat('d') }}</span>
@@ -64,7 +72,6 @@
                         </h3>
                     </div>
 
-                    {{-- DIUBAH: Sekarang memiliki 3 baris (space-y-2 untuk menjaga jaraknya tetap rapat dan rapi) --}}
                     <div class="space-y-2 mb-5">
                         {{-- Row 1: Lokasi --}}
                         <div class="flex items-center text-gray-500 font-bold text-[11px] uppercase tracking-widest bg-gray-50 px-4 py-2.5 rounded-xl border border-gray-100/50">
@@ -78,10 +85,9 @@
                             <span>{{ \Carbon\Carbon::parse($k->jam_pelaksanaan)->format('H:i') }} WITA</span>
                         </div>
 
-                        {{-- Row 3: Status Kegiatan (Selesai / Mendatang) --}}
+                        {{-- Row 3: Status Kegiatan --}}
                         @php
                             $tanggalKegiatan = \Carbon\Carbon::parse($k->tanggal_kegiatan)->startOfDay();
-                            $hariIni = \Carbon\Carbon::today();
                         @endphp
 
                         @if($tanggalKegiatan->isPast() && !$tanggalKegiatan->isToday())
@@ -99,7 +105,7 @@
 
                     <a href="{{ route('publik.kegiatan.show', $k->id) }}" class="flex items-center justify-center gap-2 bg-gray-900 text-white font-black py-4 rounded-[1.2rem] hover:bg-blue-600 transition-all active:scale-95 group/btn">
                         <span class="text-sm">Lihat Detail</span>
-                        <svg xmlns="http://www.w3.org/2000/xl" class="h-5 w-5 transform group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>
                     </a>
@@ -165,14 +171,18 @@
     </div>
 </div>
 
-{{-- Perbaikan Kalender untuk Tampilan Mobile --}}
+{{-- Script Pendukung Kalender Mobile --}}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const dateInput = document.querySelector('input[type="date"]');
+        const dateInput = document.getElementById('input-tanggal');
         if (dateInput) {
-            dateInput.addEventListener('click', function() {
+            dateInput.addEventListener('click', function(e) {
                 if (typeof this.showPicker === 'function') {
-                    this.showPicker();
+                    try {
+                        this.showPicker();
+                    } catch (err) {
+                        // Fallback jika browser memblokir pemicu bawaan
+                    }
                 }
             });
         }
