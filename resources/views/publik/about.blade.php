@@ -56,68 +56,7 @@
         </div>
     </div>
 
-    {{-- 3. VISI & MISI: Diperbarui dengan Penataan Grid Lebih Dinamis --}}
-    <div class="max-w-5xl mx-auto px-6 mb-24">
-        <div class="flex items-center gap-4 mb-10">
-            <div class="h-px flex-1 bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
-            <h2 class="text-lg md:text-xl font-black text-gray-400 tracking-[0.2em] uppercase whitespace-nowrap">Visi & Misi</h2>
-            <div class="h-px flex-1 bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {{-- Bagian Visi --}}
-            <div class="group bg-white p-10 rounded-[3rem] border border-gray-100/80 shadow-xl shadow-gray-200/20 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden">
-                <div class="absolute -right-8 -bottom-8 opacity-[0.02] pointer-events-none text-blue-600 group-hover:opacity-[0.04] transition-opacity">
-                    <svg class="w-40 h-40" fill="currentColor" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-                </div>
-                
-                <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-blue-600/20 group-hover:rotate-6 transition-transform duration-500">
-                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                    </svg>
-                </div>
-                <h3 class="text-2xl font-black text-gray-900 mb-4 uppercase tracking-tight transition-colors group-hover:text-blue-600">Visi</h3>
-                <p class="text-gray-500 text-base md:text-lg leading-relaxed font-semibold transition-colors group-hover:text-gray-600">Menjadi standar baru pusat informasi digital lokal yang terstruktur, kredibel, dan profesional guna mewujudkan masyarakat Bengkuring yang berdaya melalui kemudahan akses data transparan.</p>
-            </div>
-
-            {{-- Bagian Misi --}}
-            <div class="group bg-white p-10 rounded-[3rem] border border-gray-100/80 shadow-xl shadow-gray-200/20 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden">
-                <div class="absolute -right-8 -bottom-8 opacity-[0.02] pointer-events-none text-emerald-500 group-hover:opacity-[0.04] transition-opacity">
-                    <svg class="w-40 h-40" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                </div>
-
-                <div class="w-16 h-16 bg-emerald-500 rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-emerald-600/20 group-hover:rotate-6 transition-transform duration-500">
-                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                    </svg>
-                </div>
-                <h3 class="text-2xl font-black text-gray-900 mb-5 uppercase tracking-tight transition-colors group-hover:text-emerald-600">Misi</h3>
-                <ul class="space-y-4 text-gray-500 text-sm md:text-base font-semibold">
-                    <li class="flex items-start gap-4 group/item">
-                        <div class="mt-1 bg-emerald-100 p-1 rounded-lg shrink-0 text-emerald-600 group-hover/item:bg-emerald-500 group-hover/item:text-white transition-colors duration-300">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                        </div>
-                        <span class="transition-colors group-hover/item:text-gray-700">Mengelola informasi lokal dengan manajemen yang sistematis agar setiap pengumuman tersampaikan secara terstruktur dan rapi.</span>
-                    </li>
-                    <li class="flex items-start gap-4 group/item">
-                        <div class="mt-1 bg-emerald-100 p-1 rounded-lg shrink-0 text-emerald-600 group-hover/item:bg-emerald-500 group-hover/item:text-white transition-colors duration-300">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                        </div>
-                        <span class="transition-colors group-hover/item:text-gray-700">Mengimplementasikan fitur pencarian akurat agar data lama tetap dapat ditemukan kembali dengan mudah oleh seluruh warga.</span>
-                    </li>
-                    <li class="flex items-start gap-4 group/item">
-                        <div class="mt-1 bg-emerald-100 p-1 rounded-lg shrink-0 text-emerald-600 group-hover/item:bg-emerald-500 group-hover/item:text-white transition-colors duration-300">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                        </div>
-                        <span class="transition-colors group-hover/item:text-gray-700">Meningkatkan citra profesionalisme layanan publik di lingkungan Bengkuring melalui platform digital yang representatif.</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    {{-- 4. HUBUNGI KAMI: Perbaikan Komponen Grid & Tombol Modern --}}
+    {{-- 3. HUBUNGI KAMI: Perbaikan Komponen Grid & Tombol Modern --}}
     <div class="max-w-5xl mx-auto px-6">
         <div class="flex items-center gap-4 mb-10">
             <div class="h-px flex-1 bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
