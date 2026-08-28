@@ -26,7 +26,7 @@
                 <div class="px-6 py-8 md:px-12 md:pt-10 md:pb-0">
                     {{-- Baris Informasi Desa & Tanggal --}}
                     <div class="flex flex-wrap items-center gap-4 text-[10px] font-black mb-4 uppercase tracking-[0.2em]">
-                        <span class="bg-blue-600 text-white px-4 py-1.5 rounded-lg">Informasi Desa</span>
+                        <span class="bg-blue-600 text-white px-4 py-1.5 rounded-lg">Informasi</span>
                         <span class="text-gray-400 whitespace-nowrap">{{ $berita->tanggal_publish->translatedFormat('d F Y') }}</span>
                     </div>
                     
